@@ -1,5 +1,4 @@
 import { clerkClient } from "@clerk/nextjs";
-import type { User } from "@clerk/nextjs/dist/types/server";
 import { TRPCError } from "@trpc/server";
 import {
   createTRPCRouter,
@@ -9,11 +8,13 @@ import {
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { User } from "@clerk/nextjs/dist/types/server";
 
 const filterUserForClient = (user: User) => {
+  const name = user.username || user.firstName || "chirper";
   return {
     id: user.id,
-    username: user.username,
+    username: name.toLowerCase(),
     profileImageUrl: user.profileImageUrl,
   };
 };

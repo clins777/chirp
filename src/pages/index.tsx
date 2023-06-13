@@ -38,7 +38,9 @@ const CreatePostWizard = () => {
       <Image
         src={user.profileImageUrl}
         className="rounded-full"
-        alt={`@${user.username ? user.username : "chirper"}'s profile picture`}
+        alt={`@${
+          user.username || user.firstName || "chirper"
+        }'s profile picture`}
         width={56}
         height={56}
       ></Image>
@@ -78,15 +80,13 @@ const PostView = (props: PostWithUser) => {
       <Image
         src={author.profileImageUrl}
         className="rounded-full"
-        alt={`@${
-          author.username ? author.username : "chirper"
-        }'s profile picture`}
+        alt={`@${author.username}'s profile picture`}
         width={56}
         height={56}
       ></Image>
       <div className="flex flex-col">
         <div className="flex gap-1 text-slate-300">
-          <span>{`@${author.username ? author.username : "chirper"}`}</span>
+          <span>{`@${author.username}`}</span>
           <span className="font-thin">·</span>
           <span className="font-thin">{`${dayjs(
             post.createdAt
