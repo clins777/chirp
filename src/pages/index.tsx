@@ -17,9 +17,9 @@ const CreatePostWizard = () => {
   const [input, setInput] = useState("");
   const ctx = api.useContext();
   const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       setInput("");
-      ctx.posts.getAll.invalidate();
+      await ctx.posts.getAll.invalidate();
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -38,7 +38,7 @@ const CreatePostWizard = () => {
       <Image
         src={user.profileImageUrl}
         className="rounded-full"
-        alt={`@${user.username}'s profile picture`}
+        alt={`@${user.username ? user.username : "chirper"}'s profile picture`}
         width={56}
         height={56}
       ></Image>
@@ -78,13 +78,15 @@ const PostView = (props: PostWithUser) => {
       <Image
         src={author.profileImageUrl}
         className="rounded-full"
-        alt={`@${author.username}'s profile picture`}
+        alt={`@${
+          author.username ? author.username : "chirper"
+        }'s profile picture`}
         width={56}
         height={56}
       ></Image>
       <div className="flex flex-col">
         <div className="flex gap-1 text-slate-300">
-          <span>{`@${author.username}`}</span>
+          <span>{`@${author.username ? author.username : "chirper"}`}</span>
           <span className="font-thin">·</span>
           <span className="font-thin">{`${dayjs(
             post.createdAt
