@@ -1,14 +1,11 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
-import { prisma } from "~/server/db";
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import { appRouter } from "~/server/api/root";
-import superjson from "superjson";
 import { PageLayout } from "~/components/layout";
 import Image from "next/image";
 import { LoadingPage } from "~/components/loading";
 import PostView from "~/components/postview";
+import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
 const ProfileFeed = (props: { userId: string }) => {
   const { data, isLoading } = api.posts.getPostsByUserId.useQuery({
@@ -59,12 +56,7 @@ export default ProfilePage;
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const helpers = createServerSideHelpers({
-    router: appRouter,
-    ctx: { prisma, userId: null },
-    transformer: superjson,
-  });
-
+  const helpers = generateSSGHelper();
   const userId = context.params?.userId;
 
   if (typeof userId !== "string") throw new Error("no slug");
