@@ -7,7 +7,9 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  images: { domains: ["images.clerk.dev", "googleusercontent.com"] },
+  images: {
+    domains: ["images.clerk.dev", "googleusercontent.com", "www.gravatar.com"],
+  },
   i18n: { locales: ["en"], defaultLocale: "en" },
 };
 
