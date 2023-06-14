@@ -15,7 +15,7 @@ const ProfileFeed = (props: { userId: string }) => {
     userId: props.userId,
   });
   if (isLoading) return <LoadingPage />;
-  if (!data || data.length === 0) return <div>User hasn't posted yet 🫥</div>;
+  if (!data || data.length === 0) return <div>User has no posts yet 🫥</div>;
   return (
     <div className="flex flex-col">
       {data.map((fullPost) => (
